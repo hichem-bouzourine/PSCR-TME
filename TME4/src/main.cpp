@@ -20,7 +20,7 @@ int main()
 		threads.emplace_back(transfertJob, i, ref(b));
 
 		auto time = rand() % 20;
-		this_thread::sleep_for(std::chrono::milliseconds(time));
+		// this_thread::sleep_for(std::chrono::milliseconds(time));
 		cout << "thread created ... " << endl;
 	}
 
