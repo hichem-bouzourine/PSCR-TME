@@ -13,7 +13,7 @@ AM_LDFLAGS = -pthread
 # version locale a une cible
 #cible_LDFLAGS = -pthread 
 
-tme4_SOURCES = Banque.h Banque.cpp Compte.h Compte.cpp main.cpp
+tme4_SOURCES = Banque.h Banque.cpp Compte.h Compte.cpp main.cpp transferts.h transferts.cpp
 
 
 
