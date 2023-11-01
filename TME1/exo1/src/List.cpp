@@ -1,4 +1,4 @@
-// include de List.h
+#include "List.h"
 namespace pr
 {
 
@@ -16,7 +16,7 @@ namespace pr
 		return length();
 	}
 
-	void Chainon::print(std::ostream &os)
+	void Chainon::print(std::ostream &os) const
 	{
 		os << data;
 		if (next != nullptr)
@@ -60,9 +60,9 @@ namespace pr
 	}
 
 	// il faut ajouter List::
-	bool empty()
+	bool List::empty()
 	{
-		return tete == nullptr;
+		return (List::tete == nullptr);
 	}
 
 	size_t List::size() const
