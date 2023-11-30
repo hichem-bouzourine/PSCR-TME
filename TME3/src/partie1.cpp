@@ -1,4 +1,4 @@
-#include "q1q2.h"
+#include "partie1.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -16,10 +16,10 @@ int main()
     vector.push_back("BOUZOURINE");
 
     if (vector.size() == pr::count(vector.begin(), vector.end()))
-        cout << "Valid";
+        cout << "Bon" << endl;
     else
-        cout << "invalid";
-    cout << endl;
+        cout << "ça marche pas" << endl;
+
     cout << pr::count_if_equal(vector.begin(), vector.end(), "Hichem") << endl;
     cout << pr::count_if_equal(vector.begin(), vector.end(), "BOUZOURINE") << endl;
 
