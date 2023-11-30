@@ -63,6 +63,9 @@ int main()
 	}
 	input.close();
 
+	std::sort(vect.begin(), vect.end(), [](const pair<string, int> &a, const pair<string, int> &b)
+			  { return a.second > b.second; });
+
 	cout << "Finished Parsing War and Peace" << endl;
 
 	auto end = steady_clock::now();
