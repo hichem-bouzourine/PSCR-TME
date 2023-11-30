@@ -1,25 +1,41 @@
-#include <iostream>
+#pragma once
+
+#include <cstring> //size_t
+#include <ostream>
 
 namespace pr
 {
-    class String
+
+    size_t length(const char *str);
+    char *newcopy(const char *str);
+
+    class mString
     {
-    private:
         const char *str;
 
     public:
-        String(char *str = "");
-        String(const String &str);
-        size_t length() const;
-        int compare(const char *a, const char *b);
+        /*Constructeur copiant (duplication) la chaîne st*/
+        mString(const char *st);
+        /*Constructeur sans argument (cas d'une déclaration sans affectation)*/
+        mString();
+        /*Constructeur par copie*/
+        mString(const mString &ms);
+        size_t length();
 
-        ~String()
+        ~mString()
         {
             delete[] str;
         }
 
-        String &operator=(const String &other);
-        char operator[](size_t index) const;
-        String operator++(String &s1, String &s2);
+        /*Surchage d'opérateurs*/
+        mString &operator=(const pr::mString &st2);
+        bool operator<(const mString &b);
+        friend bool operator==(const mString &a, const mString &b);
+        friend std::ostream &operator<<(std::ostream &os, const mString &vec);
     };
+
+    std::ostream &operator<<(std::ostream &os, const mString &vec);
+
+    bool operator==(const mString &a, const mString &b);
+
 }
