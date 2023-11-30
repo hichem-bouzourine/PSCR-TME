@@ -12,38 +12,31 @@ namespace pr
 	bool Compte::debiter(unsigned int val)
 	{
 		unique_lock<recursive_mutex> g(m);
-		bool doit = solde >= val;
+		bool doit = (solde >= val);
 		if (doit)
 		{
 			solde -= val;
 		}
 		return doit;
 	}
+
+	recursive_mutex &Compte::getMutex() const
+	{
+		return m;
+	}
+
 	int Compte::getSolde() const
 	{
 		unique_lock<recursive_mutex> g(m);
 		return solde;
 	}
+
 	// NB : vector exige Copyable, mais mutex ne l'est pas...
 	Compte::Compte(const Compte &other)
 	{
 		other.m.lock();
 		solde = other.solde;
 		other.m.unlock();
-	}
-
-	void Compte::lock() const
-	{
-		this->m.lock();
-	}
-	void Compte::unlock() const
-	{
-		this->m.unlock();
-	}
-
-	bool Compte::try_lock() const
-	{
-		return this->m.try_lock();
 	}
 
 }

@@ -13,13 +13,10 @@ namespace pr
 	public:
 		Compte(int solde = 0) : solde(solde) {}
 		Compte(const Compte &other);
+		std::recursive_mutex &getMutex() const;
 		void crediter(unsigned int val);
 		bool debiter(unsigned int val);
 		int getSolde() const;
-
-		void lock() const;
-		void unlock() const;
-		bool try_lock() const;
 	};
 
 }

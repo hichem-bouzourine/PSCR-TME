@@ -1,34 +1,59 @@
-#include <iostream>
 #include "Banque.h"
-#include "Compte.h"
-#include "transferts.h"
+#include <iostream>
 
 using namespace std;
 
-const int NB_THREAD = 10;
+/*Q1 Ecrivez un programme, qui crée N threads de transaction, qui bouclent 1000 fois sur
+le comportement est suivant :
+• Choisir i et j deux indices de comptes aléatoires, et un montant aléatoire m compris entre 1
+et 100.
+• Essayer de transférer le montant m de i à j .
+• Dormir une durée aléatoire de 0 à 20 ms.*/
 
+const int NB_TRANSCACT = 1000;
+void comportement_thread(pr::Banque &b)
+{
+
+	for (int k = 0; k < NB_TRANSCACT; ++k)
+	{
+		int i = ::rand() % b.size() / 2; // Encourage les transferts problématiques pour la comptabilisation
+		int j = ::rand() % b.size() / 2 + b.size() / 2;
+		int m = ::rand() % 98 + 1;
+		b.transfert(i, j, m);
+		auto r = ::rand() % 21;
+		std::this_thread::sleep_for(std::chrono::milliseconds(r));
+	}
+}
+
+const int NB_THREAD = 10;
+const int NB_COMPTES = 10;
+const int SOLDE_BASE = 420;
 int main()
 {
-	using namespace pr;
 	vector<thread> threads;
-	threads.reserve(NB_THREAD);
-	Banque b(80, 500); // banque de 80 comptes avec 500 Euros chaque un.
-
-	// TODO : creer des threads qui font ce qui est demandé
-	for (int i = 0; i < NB_THREAD; i++)
+	vector<thread> comptables;
+	pr::Banque bq(NB_COMPTES, SOLDE_BASE);
+	for (int i = 0; i < NB_THREAD; ++i)
 	{
-		threads.emplace_back(transfertJob, i, ref(b));
+		threads.emplace_back(comportement_thread, ref(bq));
 
-		auto time = rand() % 20;
-		// this_thread::sleep_for(std::chrono::milliseconds(time));
-		cout << "thread created ... " << endl;
+		if (i % 2 == 0)
+			comptables.emplace_back(&pr::Banque::comptabiliser, &bq, bq.size() * SOLDE_BASE);
 	}
+
+	bq.comptabiliser(bq.size() * SOLDE_BASE);
 
 	for (auto &t : threads)
 	{
 		t.join();
 	}
+	for (auto &c : comptables)
+	{
+		c.join();
+	}
 
 	// TODO : tester solde = NB_THREAD * JP
+	if (bq.comptabiliser(bq.size() * SOLDE_BASE))
+		cout << "Solde de la banque OK !" << endl;
 	return 0;
 }
